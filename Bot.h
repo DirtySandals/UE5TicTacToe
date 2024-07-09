@@ -1,6 +1,6 @@
 #ifndef BOT_H
 #define BOT_H
-#include "Board.h"
+#include "Board.cpp"
 #include <iostream>
 
 class Bot {
