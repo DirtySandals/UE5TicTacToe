@@ -5,8 +5,8 @@ class Bot {
 private:
 
 public:
-	void makeMove(Board board, char grid[9]);
-	int minimax(char grid[9], bool isMaximising);
+	void makeMove(Board* board);
+	int minimax(Board* board, bool isMaximising);
 };
 
 #endif
