@@ -1,23 +1,23 @@
 #include "Bot.h"
-
+using namespace std;
 void Bot::makeMove(Board* board)
 {
-	int moveIndex = minimax(board, board->isXMove);
-
+	int eval = minimax(board, board->isXMove, 0);
 	board->MakeMove(moveIndex);
-
 	return;
 }
 
-int Bot::minimax(Board* board, bool isMaximising)
+int Bot::minimax(Board* board, bool isMaximising, int depth)
 {
 	// Terminating condition
-	char result = board->GetResult();
+	char result = board->GameResult();
 	switch (result) {
+		case '-':
+			break;
 		case 'x':
-			return 1;
+			return 1 * (9 - depth);
 		case 'o':
-			return -1;
+			return -1  * (9 - depth);
 		case 0:
 			return 0;
 	}
@@ -37,10 +37,24 @@ int Bot::minimax(Board* board, bool isMaximising)
 		if (!(board->MakeMove(index))) {
 			continue;
 		}
+
 		// Recursively call subproblems (simulate more moves)
-		bestScore = isMaximising ? max(bestScore, minimax(board, !isMaximising)) : min(bestScore, minimax(board, !isMaximising));
+		int score = minimax(board, !isMaximising, depth + 1);
+
+		if (isMaximising && score > bestScore) {
+			bestScore = score;
+			if (depth == 0) {
+				moveIndex = index;
+			}
+		} else if (!isMaximising && score < bestScore) {
+			bestScore = score;
+			if (depth == 0) {
+				moveIndex = index;
+			}
+		}
+
 		board->UnmakeMove(index);
 	}
-
+	
 	return bestScore;
 }
