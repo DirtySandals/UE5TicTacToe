@@ -29,6 +29,9 @@ bool Board::UnmakeMove(int index) {
 
 	grid[index] = '-';
 
+	moves--;
+	isXMove = !isXMove;
+
 	return true;
 }
 
